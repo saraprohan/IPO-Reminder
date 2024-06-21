@@ -78,7 +78,7 @@ for row in table_rows:
 df = pd.DataFrame(data = data, columns = headers)
 filtered_df = df[df['GMP'] > 80]
 filtered_df = df.loc[(df['GMP'] > 80) & (df['Fire Rating'] == '5') & (df['Close'] > date.today())]
-set_output('IPO_LENGTH', len(filtered_df))
+set_output('SIZE', len(filtered_df))
 output_string = ""
 for index, row in filtered_df.iterrows():
     for column, value in row.items():
