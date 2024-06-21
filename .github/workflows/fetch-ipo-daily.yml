@@ -29,13 +29,17 @@ jobs:
           source venv/bin/activate
 
       - name: Install dependencies
+        id: install
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          echo "name=value" >> "$GITHUB_OUTPUT"
 
       - name: Fetch and save file
         id: fetch
         run: python fetch.py
 
       - name: Verify Output
-        run: echo "${{steps.fetch.outputs.ipo}}"
+        env:
+          name: ${{ steps.color-selector.outputs.name }}
+        run: echo "The value is $name"
