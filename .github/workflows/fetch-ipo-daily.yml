@@ -1,5 +1,5 @@
 # .github/workflows/daily-download.yml
-name: Download the file from SBI server, at 3:00 PM everyday
+name: Get IPO Details
 
 on:
   schedule:
