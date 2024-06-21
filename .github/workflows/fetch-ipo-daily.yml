@@ -42,7 +42,10 @@ jobs:
         env:
           IPO: ${{steps.fetch.outputs.IPO}}
           IPO_LEN: ${{steps.fetch.outputs.IPO_LEN}}
-        if: ${{steps.fetch.outputs.IPO_LEN}} > 0
+        if: $IPO_LEN > 0
+        run: |
+          echo "The ipo len is $IPO_LEN"
+          echo "The ipo is $IPO"
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
