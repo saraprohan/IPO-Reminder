@@ -3,6 +3,19 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
 from datetime import date
+import uuid
+import os
+
+def set_output(name, value):
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        print(f'{name}={value}', file=fh)
+
+def set_multiline_output(name, value):
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        delimiter = uuid.uuid1()
+        print(f'{name}<<{delimiter}', file=fh)
+        print(value, file=fh)
+        print(delimiter, file=fh)
 
 def convert_date(date_str):
     current_year = str(date.today().year)
@@ -76,7 +89,6 @@ for index, row in filtered_df.iterrows():
         if (isinstance(value, float)):
             value = '₹' + str(value)
         output_string += f"{column}: {value}\n"
-
     output_string += "\n"
-
+set_multiline_output('ipo_details', output_string)
 print(output_string)
