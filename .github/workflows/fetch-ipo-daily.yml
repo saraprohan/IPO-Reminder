@@ -3,7 +3,7 @@ name: Get IPO Details
 
 on:
   schedule:
-    - cron: "* * * * *"
+    - cron: "*/15 * * * *"
 
 jobs:
   build:
