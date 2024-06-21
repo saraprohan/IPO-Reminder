@@ -40,6 +40,21 @@ jobs:
 
       - name: Verify Output
         env:
-          IPO: ${{ steps.fetch.outputs.IPO }}
+          IPO: ${{steps.fetch.outputs.IPO}}
         run: |
           echo "$IPO"
+
+      - name: Send mail
+        env:
+          IPO: ${{steps.fetch.outputs.IPO}}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: IPO Details
+          to: ${{secrets.MAIL_ID_1}}
+          from: Luke Skywalker
+          body: ${{steps.fetch.outputs.IPO}}

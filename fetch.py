@@ -89,6 +89,6 @@ for index, row in filtered_df.iterrows():
         if (isinstance(value, float)):
             value = '₹' + str(value)
         output_string += f"{column}: {value}\n"
-    output_string += "\n"
+    output_string += "---------------\n"
 set_multiline_output('IPO', output_string)
 print(output_string)
