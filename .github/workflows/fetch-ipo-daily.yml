@@ -34,19 +34,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Fetch and save file
+      - name: Fetch and Filter IPO Details
         id: fetch
         run: python fetch.py
-
-      - name: Verify Output
-        env:
-          IPO: ${{steps.fetch.outputs.IPO}}
-        run: |
-          echo "$IPO"
 
       - name: Send mail
         env:
           IPO: ${{steps.fetch.outputs.IPO}}
+          IPO_LEN: ${{steps.fetch.outputs.IPO_LEN}}
+        if: IPO_LEN > 0
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
