@@ -33,7 +33,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          echo "COLOR=RED" >> "$GITHUB_OUTPUT"
 
       - name: Fetch and save file
         id: fetch
@@ -42,7 +41,5 @@ jobs:
       - name: Verify Output
         env:
           IPO: ${{ steps.fetch.outputs.IPO }}
-          COLOR: ${{ steps.install.outputs.COLOR }}
         run: |
-          echo "The color is $COLOR"
-          echo "The ipo is $IPO"
+          echo "$IPO"
