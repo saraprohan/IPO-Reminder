@@ -90,5 +90,5 @@ for index, row in filtered_df.iterrows():
             value = '₹' + str(value)
         output_string += f"{column}: {value}\n"
     output_string += "\n"
-set_multiline_output('ipo_details', output_string)
+set_multiline_output('IPO', output_string)
 print(output_string)

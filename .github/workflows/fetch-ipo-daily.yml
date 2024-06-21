@@ -41,5 +41,8 @@ jobs:
 
       - name: Verify Output
         env:
+          IPO: ${{ steps.fetch.outputs.IPO }}
           COLOR: ${{ steps.install.outputs.COLOR }}
-        run: echo "The color is $COLOR"
+        run: |
+          echo "The color is $COLOR"
+          echo "The ipo is $IPO"
