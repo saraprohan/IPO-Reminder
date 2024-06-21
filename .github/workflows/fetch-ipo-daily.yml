@@ -58,6 +58,6 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: IPO Details
-          to: ${{secrets.MAIL_ID_1}}
+          to: ${{secrets.MAIL_IDS}}
           from: Luke Skywalker
           body: ${{steps.fetch.outputs.IPO}}

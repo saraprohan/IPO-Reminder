@@ -93,3 +93,4 @@ for index, row in filtered_df.iterrows():
     output_string += "---------------\n"
 set_multiline_output('IPO', output_string)
 print(output_string)
+print(len(filtered_df))
