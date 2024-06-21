@@ -41,7 +41,7 @@ jobs:
       - name: Verify Output
         env:
           IPO: ${{steps.fetch.outputs.IPO}}
-          SIZE: ${{steps.install.outputs.SIZE}}
+          SIZE: ${{steps.fetch.outputs.SIZE}}
         run: |
           echo "The ipo len is $SIZE"
           echo "The ipo is $IPO"
