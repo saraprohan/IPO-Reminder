@@ -29,6 +29,11 @@ def convert_date_time(date_str):
     date_obj = date_obj.replace(year=2024)
     return date_obj
 
+def extract_percentage(text):
+    parts = text.split('(')
+    percentage_part = parts[1].split('%')
+    return float(percentage_part[0])
+
 http = urllib3.PoolManager()
 url = "https://www.investorgain.com/report/live-ipo-gmp/331/"
 response = http.request('GET', url)
@@ -40,7 +45,11 @@ headers = []
 for cell in table_headers:
     header = cell.text
     header = header.replace("(₹)", "")
-    headers.append(header)
+    if (header == 'Est Listing'):
+        headers.append(header)
+        headers.append('Listing %')
+    else:
+        headers.append(header)
 
 table_body = table.find('tbody')
 table_rows = table_body.findAll('tr')
@@ -72,13 +81,18 @@ for row in table_rows:
                 fire_rating_img = cell.find('img')
                 fire_rating_text = fire_rating_img.attrs['title'].replace("Rating ", "").replace("/5", "")
                 row_data.append(fire_rating_text)
+            elif (cell.attrs['data-label'] == 'Est Listing'):
+                row_data.append(cell.text)
+                row_data.append(extract_percentage(cell.text))
             else:
                 row_data.append(cell.text)
     data.append(row_data)
 df = pd.DataFrame(data = data, columns = headers)
-filtered_df = df[df['GMP'] > 80]
-filtered_df = df.loc[(df['GMP'] > 80) & (df['Fire Rating'] == '5') & (df['Close'] == date.today())]
-set_output('SIZE', len(filtered_df))
+sme_df = df[df['IPO'].str.contains('SME', case=False)]
+sme_filtered_df = sme_df.loc[(sme_df['GMP'] > 80) & (sme_df['Fire Rating'] == '5') & (sme_df['Close'] == date.today())]
+non_sme_df = df[~df['IPO'].str.contains('SME', case=False)]
+non_sme_filtered_df = non_sme_df.loc[(non_sme_df['Listing %'] > 40) & (non_sme_df['Fire Rating'] == '5') & (non_sme_df['Close'] == date.today())]
+filtered_df = pd.concat([sme_filtered_df, non_sme_filtered_df])
 output_string = ""
 for index, row in filtered_df.iterrows():
     for column, value in row.items():
@@ -88,9 +102,12 @@ for index, row in filtered_df.iterrows():
                 date_format = "%B %d, %Y - %I:%M%p"
             value = value.strftime(date_format)
         if (isinstance(value, float)):
-            value = '₹' + str(value)
+            if (column == 'Listing %'):
+                value = str(value) + '%'
+            else:
+                value = '₹' + str(value)
         output_string += f"{column}: {value}\n"
     output_string += "---------------\n"
+set_output('SIZE', len(filtered_df))
 set_multiline_output('IPO', output_string)
 print(output_string)
-print(len(filtered_df))
