@@ -82,8 +82,9 @@ for row in table_rows:
                 fire_rating_text = fire_rating_img.attrs['title'].replace("Rating ", "").replace("/5", "")
                 row_data.append(fire_rating_text)
             elif (cell.attrs['data-label'] == 'Est Listing'):
-                row_data.append(cell.text)
-                row_data.append(extract_percentage(cell.text))
+                if (cell.text != '--'):
+                    row_data.append(cell.text)
+                    row_data.append(extract_percentage(cell.text))
             else:
                 row_data.append(cell.text)
     data.append(row_data)
