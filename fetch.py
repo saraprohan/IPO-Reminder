@@ -69,7 +69,7 @@ for row in table_rows:
                 ipo = cell.find('a').find(string = True)
                 row_data.append(ipo.text)
             elif (cell.attrs['data-label'] in price_list):
-                if (cell.text != '--'):
+                if (cell.text != '--' or cell.text != 'NA'):
                     row_data.append(float(cell.text))
                 else:
                     row_data.append(0)
