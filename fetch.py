@@ -6,16 +6,16 @@ from datetime import date
 import uuid
 import os
 
-def set_output(name, value):
-    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-        print(f'{name}={value}', file=fh)
+# def set_output(name, value):
+#     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+#         print(f'{name}={value}', file=fh)
 
-def set_multiline_output(name, value):
-    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-        delimiter = uuid.uuid1()
-        print(f'{name}<<{delimiter}', file=fh)
-        print(value, file=fh)
-        print(delimiter, file=fh)
+# def set_multiline_output(name, value):
+#     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+#         delimiter = uuid.uuid1()
+#         print(f'{name}<<{delimiter}', file=fh)
+#         print(value, file=fh)
+#         print(delimiter, file=fh)
 
 def convert_date(date_str):
     current_year = str(date.today().year)
@@ -57,7 +57,7 @@ data = []
 
 price_list = ['Price', 'GMP(₹)']
 date_list = ['Open', 'Close', 'BoA Dt', 'Listing']
-
+print(table_rows)
 for row in table_rows:
     row_data = []
     cells = row.find_all('td')
@@ -90,6 +90,8 @@ for row in table_rows:
                 row_data.append(cell.text)
     data.append(row_data)
 df = pd.DataFrame(data = data, columns = headers)
+df = df.loc[df['Price'] != 0.0]
+df = df.dropna()
 sme_df = df[df['IPO'].str.contains('SME', case=False)]
 sme_filtered_df = sme_df.loc[(sme_df['GMP'] > 80) & (sme_df['Fire Rating'] == '5') & (sme_df['Close'] == date.today())]
 non_sme_df = df[~df['IPO'].str.contains('SME', case=False)]
@@ -110,6 +112,6 @@ for index, row in filtered_df.iterrows():
                 value = '₹' + str(value)
         output_string += f"{column}: {value}\n"
     output_string += "---------------\n"
-set_output('SIZE', len(filtered_df))
-set_multiline_output('IPO', output_string)
+# set_output('SIZE', len(filtered_df))
+# set_multiline_output('IPO', output_string)
 print(output_string)
