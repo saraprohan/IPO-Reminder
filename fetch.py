@@ -74,7 +74,7 @@ for row in table_rows:
                 else:
                     row_data.append(0)
             elif (cell.attrs['data-label'] in date_list):
-                if (cell.text != '')
+                if (cell.text != ''):
                     row_data.append(convert_date(cell.text))
             elif (cell.attrs['data-label'] == 'GMP Updated'):
                 row_data.append(convert_date_time(cell.text))
