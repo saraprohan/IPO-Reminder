@@ -6,16 +6,16 @@ from datetime import date
 import uuid
 import os
 
-# def set_output(name, value):
-#     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-#         print(f'{name}={value}', file=fh)
+def set_output(name, value):
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        print(f'{name}={value}', file=fh)
 
-# def set_multiline_output(name, value):
-#     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-#         delimiter = uuid.uuid1()
-#         print(f'{name}<<{delimiter}', file=fh)
-#         print(value, file=fh)
-#         print(delimiter, file=fh)
+def set_multiline_output(name, value):
+    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+        delimiter = uuid.uuid1()
+        print(f'{name}<<{delimiter}', file=fh)
+        print(value, file=fh)
+        print(delimiter, file=fh)
 
 def convert_date(date_str):
     current_year = str(date.today().year)
@@ -112,6 +112,6 @@ for index, row in filtered_df.iterrows():
                 value = '₹' + str(value)
         output_string += f"{column}: {value}\n"
     output_string += "---------------\n"
-# set_output('SIZE', len(filtered_df))
-# set_multiline_output('IPO', output_string)
+set_output('SIZE', len(filtered_df))
+set_multiline_output('IPO', output_string)
 print(output_string)
