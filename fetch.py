@@ -96,7 +96,7 @@ sme_df = df[df['IPO'].str.contains('SME', case=False)]
 sme_filtered_df = sme_df.loc[(sme_df['GMP'] > 80) & (sme_df['Fire Rating'] == '5') & (sme_df['Close'] == date.today())]
 non_sme_df = df[~df['IPO'].str.contains('SME', case=False)]
 non_sme_filtered_df = non_sme_df.loc[(non_sme_df['Listing %'] > 40) & (non_sme_df['Fire Rating'] == '5') & (non_sme_df['Close'] == date.today())]
-filtered_df = pd.concat([sme_filtered_df, non_sme_filtered_df])
+filtered_df = pd.concat([non_sme_filtered_df, sme_filtered_df])
 output_string = ""
 for index, row in filtered_df.iterrows():
     for column, value in row.items():
