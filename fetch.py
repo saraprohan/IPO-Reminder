@@ -38,6 +38,7 @@ http = urllib3.PoolManager()
 url = "https://www.investorgain.com/report/live-ipo-gmp/331/"
 response = http.request('GET', url)
 soup = BeautifulSoup(response.data, 'html.parser')
+print(soup)
 table = soup.find('table', id='mainTable')
 table_header = table.find('thead')
 table_headers = table_header.findAll('a')
