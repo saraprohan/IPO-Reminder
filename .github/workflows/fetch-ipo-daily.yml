@@ -2,8 +2,8 @@
 name: Get IPO Details
 
 on:
-  schedule:
-    - cron: "30 4 * * *"
+  # schedule:
+  #   - cron: "30 4 * * *"
   workflow_dispatch:
 
 jobs:
