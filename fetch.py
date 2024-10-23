@@ -57,7 +57,6 @@ data = []
 
 price_list = ['Price', 'GMP(₹)']
 date_list = ['Open', 'Close', 'BoA Dt', 'Listing']
-print(table_rows)
 for row in table_rows:
     row_data = []
     cells = row.find_all('td')
